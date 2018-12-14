@@ -16,7 +16,7 @@ public object Configration {
 
     object Version {
 
-        const val appCompact="1.1.0-alpha01"
+        const val appCompact = "1.1.0-alpha01"
         const val retrofitVersion = "2.5.0"
         const val okhttpVersion = "3.12.0"
         const val retrofit2RxJava2AdapterVersion = "2.5.0"
@@ -29,6 +29,7 @@ public object Configration {
         const val espressoVersion = "3.0.2"
         const val mockitoVersion = "2.8.47"
         const val gradleVersion = "3.2.1"
+        const val koinVersion = "1.0.2"
 
     }
 
@@ -71,6 +72,9 @@ public object Configration {
 
     }
 
+    object Koin {
+        const val koin = "org.koin:koin-android:${Version.koinVersion}"
+    }
 
     object Testing {
 

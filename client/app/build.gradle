@@ -29,6 +29,9 @@ dependencies {
     implementation Configration.Kotlin.kotlinStdlib
     implementation Configration.AndroidXSupport.appcompat
     implementation Configration.AndroidXSupport.constraintLayout
+
+    implementation Configration.Koin.koin
+
     testImplementation Configration.Testing.junit
     androidTestImplementation Configration.Testing.supportTestRunner
     androidTestImplementation Configration.Testing.espressoCore
