@@ -132,7 +132,6 @@ hs_err_pid*
 # JIRA plugin
 atlassian-ide-plugin.xml
 
-gradle
 # Mongo Explorer plugin
 .idea/mongoSettings.xml
 
@@ -143,5 +142,3 @@ crashlytics-build.properties
 fabric.properties
 
 ### AndroidStudio Patch ###
-
-
