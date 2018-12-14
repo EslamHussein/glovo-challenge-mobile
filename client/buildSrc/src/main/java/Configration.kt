@@ -15,13 +15,12 @@ public object Configration {
     }
 
     object Version {
-        const val androidSupportVersion = "28.0.0-alpha3"
-        const val daggerVersion = "2.15"
+
+        const val appCompact="1.1.0-alpha01"
         const val retrofitVersion = "2.3.0"
         const val okhttpVersion = "3.9.1"
         const val retrofit2RxJava2AdapterVersion = "2.3.0"
-        const val constraintLayoutVersion = "1.1.2"
-        const val picassoVersion = "2.71828"
+        const val constraintLayoutVersion = "2.0.0-alpha2"
         const val rxAndroidVersion = "2.0.2"
         const val rxKotlinVersion = "2.1.0"
         const val kotlinVersion = "1.2.51"
@@ -42,10 +41,9 @@ public object Configration {
 
     object AndroidXSupport {
 
-        const val supportDesign = "com.android.support:design:${Version.androidSupportVersion}"
-        const val appcompat = "com.android.support:appcompat-v7:${Version.androidSupportVersion}"
+        const val appcompat = "androidx.appcompat:appcompat:${Version.appCompact}"
         const val constraintLayout =
-            "com.android.support.constraint:constraint-layout:${Version.constraintLayoutVersion}"
+            "androidx.constraintlayout:constraintlayout:${Version.constraintLayoutVersion}"
 
     }
 
