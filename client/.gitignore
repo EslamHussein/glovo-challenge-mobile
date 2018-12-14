@@ -50,9 +50,6 @@ out/
 
 # Gradle files
 .gradle
-.gradle/
-build/
-
 # Signing files
 .signing/
 
@@ -66,8 +63,6 @@ proguard/
 *.log
 
 # Android Studio
-/*/build/
-/*/local.properties
 /*/out
 /*/*/build
 /*/*/production
@@ -84,28 +79,19 @@ gen-external-apklibs
 .externalNativeBuild
 
 # NDK
-obj/
-
 # IntelliJ IDEA
 *.iml
 *.iws
 /out/
 
 # User-specific configurations
-.idea/caches/
-.idea/libraries/
 .idea/shelf/
-.idea/workspace.xml
 .idea/tasks.xml
 .idea/.name
-.idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/dictionaries
-.idea/vcs.xml
 .idea/jsLibraryMappings.xml
 .idea/datasources.xml
 .idea/dataSources.ids
@@ -142,10 +128,11 @@ hs_err_pid*
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
-
+.idea
 # JIRA plugin
 atlassian-ide-plugin.xml
 
+gradle
 # Mongo Explorer plugin
 .idea/mongoSettings.xml
 
@@ -157,4 +144,4 @@ fabric.properties
 
 ### AndroidStudio Patch ###
 
-!/gradle/wrapper/gradle-wrapper.jar
+
