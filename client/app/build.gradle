@@ -14,7 +14,7 @@ android {
         targetSdkVersion Configration.Android.targetSdk
         versionCode Configration.Android.versionCode
         versionName Configration.Android.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -28,7 +28,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation Configration.Kotlin.kotlinStdlib
     implementation Configration.AndroidXSupport.appcompat
-    implementation Configration.AndroidXSupport.supportDesign
     implementation Configration.AndroidXSupport.constraintLayout
     testImplementation Configration.Testing.junit
     androidTestImplementation Configration.Testing.supportTestRunner
