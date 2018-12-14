@@ -17,9 +17,9 @@ public object Configration {
     object Version {
 
         const val appCompact="1.1.0-alpha01"
-        const val retrofitVersion = "2.3.0"
-        const val okhttpVersion = "3.9.1"
-        const val retrofit2RxJava2AdapterVersion = "2.3.0"
+        const val retrofitVersion = "2.5.0"
+        const val okhttpVersion = "3.12.0"
+        const val retrofit2RxJava2AdapterVersion = "2.5.0"
         const val constraintLayoutVersion = "2.0.0-alpha2"
         const val rxAndroidVersion = "2.0.2"
         const val rxKotlinVersion = "2.1.0"
