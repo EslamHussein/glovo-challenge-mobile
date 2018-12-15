@@ -1,7 +1,5 @@
 package com.glovo.glovo.map.di
 
-import com.glovo.glovo.base.usecase.UseCase
-import com.glovo.glovo.map.data.dto.Country
 import com.glovo.glovo.map.data.remote.repo.CitiesRemoteRepo
 import com.glovo.glovo.map.data.remote.repo.CitiesRemoteRepoImpl
 import com.glovo.glovo.map.data.remote.repo.CountriesRemoteRepo
@@ -19,7 +17,7 @@ import retrofit2.Retrofit
 
 val mapModule = module {
 
-    factory<MapPresenter> { (view: MainView) -> MapPresenterImpl(view, get()) }
+    factory<MapPresenter> { (view: MainView) -> MapPresenterImpl(view, get(), get()) }
 
     factory { get<Retrofit>().create(CountriesAPIService::class.java) }
     factory { get<Retrofit>().create(CitiesAPIService::class.java) }
@@ -31,4 +29,6 @@ val mapModule = module {
     single<CountriesRemoteRepo> { CountriesRemoteRepoImpl(get()) }
     single<CitiesRemoteRepo> { CitiesRemoteRepoImpl(get()) }
 
+
 }
+

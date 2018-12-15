@@ -1,5 +1,7 @@
 package com.glovo.glovo.base.presenter
 
+import com.glovo.glovo.base.view.ShowErrorView
+import com.glovo.glovo.base.exception.ErrorHandler
 import com.glovo.glovo.base.view.MvpView
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -9,16 +11,22 @@ import java.lang.ref.WeakReference
 /**
  * Created Eslam Hussein .
  */
-abstract class BasePresenter<V : MvpView>(private val view: V) : MvpPresenter {
+abstract class BasePresenter<View>(private val view: View, private val errorHandler: ErrorHandler) :
+    MvpPresenter where View : MvpView, View : ShowErrorView {
 
-    private var viewRef: WeakReference<V>? = null
+
+
+    private var viewRef: WeakReference<View>? = null
 
     private var disposables: CompositeDisposable? = null
 
-    fun getMyView(): V? = viewRef?.get()
+    fun getView(): View? = viewRef?.get()
+    fun getErrorHandler(): ErrorHandler? = errorHandler
 
     override fun onAttach() {
         viewRef = WeakReference(view)
+        errorHandler.attachView(view)
+
     }
 
     fun addDisposable(disposable: Disposable) {
@@ -42,6 +50,7 @@ abstract class BasePresenter<V : MvpView>(private val view: V) : MvpPresenter {
         if (disposables != null)
             disposables!!.dispose()
 
+        errorHandler.detachView()
     }
 
 }

@@ -9,9 +9,11 @@ import com.glovo.glovo.map.presenter.MapPresenter
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
+
+private val TAG = "TAG${MapActivity::class.java.simpleName}"
+
 class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView {
 
-    private val TAG = MapActivity::class.java.simpleName
 
     override val presenter: MapPresenter by inject { parametersOf(this) }
 
@@ -34,7 +36,7 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView {
     }
 
     override fun showCountries(countries: List<Country>) {
-        Log.d(TAG, "showCountries")
+        Log.d(TAG, "showCountries ${countries.size}")
 
 
     }
