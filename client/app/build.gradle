@@ -40,6 +40,9 @@ dependencies {
     implementation Configration.Network.retrofitRxJavaAdapter
 
 
+    implementation Configration.PlayService.maps
+    implementation Configration.PlayService.mapsUtils
+
     testImplementation Configration.Testing.junit
     androidTestImplementation Configration.Testing.supportTestRunner
     androidTestImplementation Configration.Testing.espressoCore

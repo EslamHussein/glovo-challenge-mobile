@@ -30,6 +30,9 @@ public object Configration {
         const val mockitoVersion = "2.8.47"
         const val gradleVersion = "3.2.1"
         const val koinVersion = "1.0.2"
+        const val playServicesVersion = "16.0.0"
+        const val gMapsUtilsVersion = "0.5"
+
 
     }
 
@@ -52,6 +55,11 @@ public object Configration {
         const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Version.rxAndroidVersion}"
         const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Version.rxKotlinVersion}"
 
+    }
+
+    object PlayService {
+        const val maps = "com.google.android.gms:play-services-maps:${Version.playServicesVersion}"
+        const val mapsUtils = "com.google.maps.android:android-maps-utils:${Version.gMapsUtilsVersion}"
     }
 
 
