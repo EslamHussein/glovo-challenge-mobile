@@ -1,7 +1,11 @@
 package com.glovo.glovo.map.di
 
+import com.glovo.glovo.map.data.CitiesRepo
+import com.glovo.glovo.map.data.CitiesRepoImpl
 import com.glovo.glovo.map.data.remote.repo.CitiesRemoteRepo
 import com.glovo.glovo.map.data.remote.repo.CitiesRemoteRepoImpl
+import com.glovo.glovo.map.data.CountriesRepo
+import com.glovo.glovo.map.data.CountriesRepoImpl
 import com.glovo.glovo.map.data.remote.repo.CountriesRemoteRepo
 import com.glovo.glovo.map.data.remote.repo.CountriesRemoteRepoImpl
 import com.glovo.glovo.map.presenter.MapPresenter
@@ -28,6 +32,9 @@ val mapModule = module {
 
     single<CountriesRemoteRepo> { CountriesRemoteRepoImpl(get()) }
     single<CitiesRemoteRepo> { CitiesRemoteRepoImpl(get()) }
+
+    single<CountriesRepo> { CountriesRepoImpl(get()) }
+    single<CitiesRepo> { CitiesRepoImpl(get()) }
 
 
 }
