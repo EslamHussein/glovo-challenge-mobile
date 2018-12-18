@@ -45,6 +45,8 @@ dependencies {
     implementation Configration.PlayService.mapsUtils
     implementation Configration.PlayService.location
 
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     testImplementation Configration.Testing.junit
     androidTestImplementation Configration.Testing.supportTestRunner
     androidTestImplementation Configration.Testing.espressoCore

@@ -2,10 +2,7 @@ package com.glovo.glovo.map.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import com.glovo.glovo.R
 import com.glovo.glovo.base.view.MvpActivity
 import com.glovo.glovo.ext.ConvexHull
@@ -32,12 +29,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.google.android.gms.common.util.MapUtils
+import com.glovo.glovo.selectlocation.view.CITY_CODE_ARG
+import com.glovo.glovo.selectlocation.view.SELECT_LOCATION_ACTIVITY_RESULT_CODE
+import com.glovo.glovo.selectlocation.view.SelectLocationActivity
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import kotlinx.android.synthetic.main.include_city_details.*
 import kotlinx.android.synthetic.main.include_map.*
 
@@ -48,6 +48,8 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
     ClusterManager.OnClusterItemClickListener<CityClusterItem>, PermissionCallback, GoogleMap.OnCameraIdleListener {
 
     private var allAvailableAreas = ArrayList<List<LatLng>>()
+
+    private val citiesClustered = HashMap<String, CityClusterItem>()
 
     override val presenter: MapPresenter by inject { parametersOf(this) }
     private val permissionManager: PermissionManager by inject { parametersOf(this) }
@@ -102,6 +104,7 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
     override fun showError(error: String) {
 
+        Snackbar.make(parentView, error, Snackbar.LENGTH_LONG).show()
 
     }
 
@@ -118,28 +121,33 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
 
             val polygonOption =
-                ConvexHull.convert(polygons).strokeColor(ContextCompat.getColor(this, R.color.working_area_stroke_color))
+                ConvexHull.convert(polygons)
+                    .strokeColor(ContextCompat.getColor(this, R.color.working_area_stroke_color))
                     .fillColor(ContextCompat.getColor(this, R.color.working_area_color))
             val polygon = mMap.addPolygon(polygonOption)
-            mClusterItemManager?.addItem(
-                CityClusterItem(
-                    polygon?.getCenterPoint()!!,
-                    city.name,
-                    city.code,
-                    city.countryCode, polygon.getBounds()
-                )
+            val cityClusterItem = CityClusterItem(
+                polygon?.getCenterPoint()!!,
+                city.name,
+                city.code,
+                city.countryCode, polygon.getBounds()
             )
+            mClusterItemManager?.addItem(cityClusterItem)
+            citiesClustered[city.code] = cityClusterItem
 
             allAvailableAreas.add(polygon.points)
         }
 
     }
 
-    override fun onClusterItemClick(pin: CityClusterItem): Boolean {
+    override fun onClusterItemClick(pin: CityClusterItem?): Boolean {
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(pin.bounds, 0))
+        if (pin != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(pin.bounds, 0))
 
-        presenter.getCityDetails(pin.code)
+            presenter.getCityDetails(pin.code)
+            return false
+
+        }
         return true
     }
 
@@ -155,11 +163,11 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
     override fun onGranted(permission: String) {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation.addOnCompleteListener {
-            if (it.isSuccessful) {
+            if (it.isSuccessful && it.result != null) {
                 val location = LatLng(it.result?.latitude ?: 0.0, it.result?.longitude ?: 0.0)
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(location))
             } else {
-                // TODO user should select location
+                showSelectLocation()
             }
         }
     }
@@ -168,13 +176,17 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
         Snackbar.make(parentView, getString(R.string.enable_location_permission), Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.setting)) {
-                val intent = Intent()
-                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                val uri = Uri.fromParts("package", packageName, null)
-                intent.data = uri
-                startActivity(intent)
+                navigateToPermissionSetting()
             }.show()
 
+    }
+
+    private fun navigateToPermissionSetting() {
+        val intent = Intent()
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -194,6 +206,58 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
             targetLocationPointerImageView.setImageResource(R.drawable.ic_pin_in_working_area_48dp)
         } else {
             targetLocationPointerImageView.setImageResource(R.drawable.ic_pin_out_working_area_48dp)
+        }
+
+    }
+
+    private fun showSelectLocation() {
+
+        getOkDialog(
+            getString(R.string.select_location),
+            getString(R.string.select_current_location_dialog_msg),
+            getString(R.string.select),
+            getString(R.string.cancel)
+        ) {
+            navigateToSelectLocation()
+        }.show()
+    }
+
+    private fun navigateToSelectLocation() {
+        val intent = Intent(this, SelectLocationActivity::class.java)
+        this.startActivityForResult(intent, SELECT_LOCATION_ACTIVITY_RESULT_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SELECT_LOCATION_ACTIVITY_RESULT_CODE) {
+            if (resultCode == RESULT_OK) {
+                val result = data?.getStringExtra(CITY_CODE_ARG)
+
+                onClusterItemClick(citiesClustered[result])
+            }
+            if (resultCode == RESULT_CANCELED) {
+                showError(getString(R.string.you_have_not_selected_your_location))
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_map_activity, menu);
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+
+        return when (item?.itemId) {
+            R.id.action_select_location -> {
+                navigateToSelectLocation()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
 
     }
