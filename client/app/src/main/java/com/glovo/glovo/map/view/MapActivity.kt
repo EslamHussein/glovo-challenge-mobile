@@ -154,7 +154,10 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
     override fun showCityDetails(city: City) {
 
-        cityNameTextView.text = city.currency
+        cityNameTextView.text = city.name
+        currencyTextView.text = city.currency
+        countryTextView.text = city.countryCode
+        timeZoneTextView.text = city.timeZone
 
     }
 
