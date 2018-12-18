@@ -7,7 +7,7 @@ import com.google.maps.android.clustering.ClusterItem
 data class CityClusterItem(
     private val mPosition: LatLng,
     private val name: String,
-    private val code: String,
+    val code: String,
     private val countryCode: String,
     val bounds: LatLngBounds
 ) : ClusterItem {

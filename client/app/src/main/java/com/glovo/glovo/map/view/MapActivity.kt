@@ -2,6 +2,7 @@ package com.glovo.glovo.map.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -31,9 +32,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.view.View
+import androidx.core.content.ContextCompat
+import com.google.android.gms.common.util.MapUtils
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import kotlinx.android.synthetic.main.include_city_details.*
+import kotlinx.android.synthetic.main.include_map.*
 
 
 private val TAG = "TAG${MapActivity::class.java.simpleName}"
@@ -41,7 +47,7 @@ private val TAG = "TAG${MapActivity::class.java.simpleName}"
 class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyCallback,
     ClusterManager.OnClusterItemClickListener<CityClusterItem>, PermissionCallback, GoogleMap.OnCameraIdleListener {
 
-    private var allAvailableAreas = ArrayList<LatLngBounds>()
+    private var allAvailableAreas = ArrayList<List<LatLng>>()
 
     override val presenter: MapPresenter by inject { parametersOf(this) }
     private val permissionManager: PermissionManager by inject { parametersOf(this) }
@@ -78,12 +84,13 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
 
     override fun showLoading() {
-
+        progressBar.visibility = View.VISIBLE
 
     }
 
 
     override fun hideLoading() {
+        progressBar.visibility = View.INVISIBLE
 
 
     }
@@ -110,9 +117,9 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
             }
 
 
-            val polygonOption = ConvexHull.convert(polygons).strokeColor(Color.RED)?.fillColor(Color.MAGENTA)
+            val polygonOption =
+                ConvexHull.convert(polygons).fillColor(ContextCompat.getColor(this, R.color.working_area_color))
             val polygon = mMap.addPolygon(polygonOption)
-
             mClusterItemManager?.addItem(
                 CityClusterItem(
                     polygon?.getCenterPoint()!!,
@@ -121,20 +128,24 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
                     city.countryCode, polygon.getBounds()
                 )
             )
-            allAvailableAreas.add(polygon.getBounds())
+
+            allAvailableAreas.add(polygon.points)
         }
 
     }
 
-    override fun onClusterItemClick(pin: CityClusterItem?): Boolean {
+    override fun onClusterItemClick(pin: CityClusterItem): Boolean {
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(pin?.bounds, 0))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(pin.bounds, 0))
+
+        presenter.getCityDetails(pin.code)
         return true
     }
 
 
     override fun showCityDetails(city: City) {
 
+        cityNameTextView.text = city.currency
 
     }
 
@@ -172,9 +183,11 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
     override fun onCameraIdle() {
         mClusterItemManager?.onCameraIdle()
-        val isWorkingArea = allAvailableAreas.none {
-            it.contains(mMap.cameraPosition.target)
-        }.not()
+        val camLocationTarget = mMap.cameraPosition.target
+        val isWorkingArea = allAvailableAreas.filter {
+
+            PolyUtil.containsLocation(camLocationTarget, it, true)
+        }.isNotEmpty()
 
         if (isWorkingArea) {
             targetLocationPointerImageView.setImageResource(R.drawable.ic_pin_in_working_area_48dp)
