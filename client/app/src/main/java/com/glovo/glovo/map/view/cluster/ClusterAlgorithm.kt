@@ -63,7 +63,7 @@ class ClusterAlgorithm : Algorithm<CityClusterItem> {
         mItems.add(item)
     }
 
-    fun clusterBy(items: Set<CityClusterItem>, clusterBy: (CityClusterItem) -> String): HashSet<WorkingAreaCluster> {
+    private fun clusterBy(items: Set<CityClusterItem>, clusterBy: (CityClusterItem) -> String): HashSet<WorkingAreaCluster> {
         val resultCluster: HashSet<WorkingAreaCluster> = HashSet()
         val hashMap = HashMap<String, WorkingAreaCluster>()
         items.forEach {
@@ -80,6 +80,7 @@ class ClusterAlgorithm : Algorithm<CityClusterItem> {
         }
         return resultCluster
     }
+
 
 }
 

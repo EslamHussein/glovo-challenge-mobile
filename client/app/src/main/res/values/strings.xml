@@ -3,4 +3,7 @@
     <string name="server_error">Ops… Server error please try again later…</string>
     <string name="network_error">Network error please check your internet connection…</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="setting">Setting</string>
+    <string name="enable_location_permission">Enable Location Permission</string>
+    <string name="my_current_location">My Current Location</string>
 </resources>

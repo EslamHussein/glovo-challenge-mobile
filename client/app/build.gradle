@@ -29,6 +29,7 @@ dependencies {
     implementation Configration.Kotlin.kotlinStdlib
     implementation Configration.AndroidXSupport.appcompat
     implementation Configration.AndroidXSupport.constraintLayout
+    implementation Configration.AndroidXSupport.material
 
     implementation Configration.Koin.koin
 
@@ -42,6 +43,7 @@ dependencies {
 
     implementation Configration.PlayService.maps
     implementation Configration.PlayService.mapsUtils
+    implementation Configration.PlayService.location
 
     testImplementation Configration.Testing.junit
     androidTestImplementation Configration.Testing.supportTestRunner

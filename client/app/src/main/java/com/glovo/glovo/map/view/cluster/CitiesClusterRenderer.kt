@@ -31,16 +31,18 @@ class CitiesClusterRenderer(
     override fun onBeforeClusterRendered(cluster: Cluster<CityClusterItem>?, markerOptions: MarkerOptions?) {
         super.onBeforeClusterRendered(cluster, markerOptions)
 
-        val mClusterIconGenerator: IconGenerator = IconGenerator(context.getApplicationContext())
+        val mClusterIconGenerator = IconGenerator(context)
 
         mClusterIconGenerator.setBackground(
             ContextCompat.getDrawable(context, R.drawable.background_circle)
-        );
+        )
         mClusterIconGenerator.setTextAppearance(R.style.AppTheme_WhiteTextAppearance)
         val icon = mClusterIconGenerator.makeIcon(cluster?.items?.first()?.snippet)
         markerOptions?.icon(BitmapDescriptorFactory.fromBitmap(icon));
 
 
     }
+
+
 
 }

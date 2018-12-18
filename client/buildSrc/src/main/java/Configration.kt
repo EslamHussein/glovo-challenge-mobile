@@ -48,6 +48,8 @@ public object Configration {
         const val appcompat = "androidx.appcompat:appcompat:${Version.appCompact}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Version.constraintLayoutVersion}"
+        const val material = "com.google.android.material:material:${Version.appCompact}"
+
 
     }
 
@@ -60,6 +62,7 @@ public object Configration {
     object PlayService {
         const val maps = "com.google.android.gms:play-services-maps:${Version.playServicesVersion}"
         const val mapsUtils = "com.google.maps.android:android-maps-utils:${Version.gMapsUtilsVersion}"
+        const val location = "com.google.android.gms:play-services-location:${Version.playServicesVersion}"
     }
 
 
