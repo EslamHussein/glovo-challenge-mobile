@@ -39,12 +39,12 @@ class ClusterAlgorithm : Algorithm<CityClusterItem> {
             resultCluster = when (zoom) {
                 in 0 until 6 -> {
                     clusterBy(mItems) {
-                        it.snippet
+                        it.countryCode
                     }
                 }
                 in 7 until 9 -> {
                     clusterBy(mItems) {
-                        it.title
+                        it.name
                     }
                 }
                 else -> {
@@ -63,7 +63,10 @@ class ClusterAlgorithm : Algorithm<CityClusterItem> {
         mItems.add(item)
     }
 
-    private fun clusterBy(items: Set<CityClusterItem>, clusterBy: (CityClusterItem) -> String): HashSet<WorkingAreaCluster> {
+    private fun clusterBy(
+        items: Set<CityClusterItem>,
+        clusterBy: (CityClusterItem) -> String
+    ): HashSet<WorkingAreaCluster> {
         val resultCluster: HashSet<WorkingAreaCluster> = HashSet()
         val hashMap = HashMap<String, WorkingAreaCluster>()
         items.forEach {

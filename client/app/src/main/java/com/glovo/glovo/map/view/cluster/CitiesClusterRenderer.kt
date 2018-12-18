@@ -37,7 +37,7 @@ class CitiesClusterRenderer(
             ContextCompat.getDrawable(context, R.drawable.background_circle)
         )
         mClusterIconGenerator.setTextAppearance(R.style.AppTheme_WhiteTextAppearance)
-        val icon = mClusterIconGenerator.makeIcon(cluster?.items?.first()?.snippet)
+        val icon = mClusterIconGenerator.makeIcon(cluster?.items?.first()?.countryCode)
         markerOptions?.icon(BitmapDescriptorFactory.fromBitmap(icon));
 
 

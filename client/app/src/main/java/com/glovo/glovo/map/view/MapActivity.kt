@@ -118,7 +118,8 @@ class MapActivity : MvpActivity<MainView, MapPresenter>(), MainView, OnMapReadyC
 
 
             val polygonOption =
-                ConvexHull.convert(polygons).fillColor(ContextCompat.getColor(this, R.color.working_area_color))
+                ConvexHull.convert(polygons).strokeColor(ContextCompat.getColor(this, R.color.working_area_stroke_color))
+                    .fillColor(ContextCompat.getColor(this, R.color.working_area_color))
             val polygon = mMap.addPolygon(polygonOption)
             mClusterItemManager?.addItem(
                 CityClusterItem(

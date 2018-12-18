@@ -6,9 +6,9 @@ import com.google.maps.android.clustering.ClusterItem
 
 data class CityClusterItem(
     private val mPosition: LatLng,
-    private val name: String,
+    val name: String,
     val code: String,
-    private val countryCode: String,
+    val countryCode: String,
     val bounds: LatLngBounds
 ) : ClusterItem {
     override fun getSnippet(): String = code
