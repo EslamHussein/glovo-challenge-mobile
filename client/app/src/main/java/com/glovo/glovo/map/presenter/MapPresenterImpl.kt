@@ -1,5 +1,6 @@
 package com.glovo.glovo.map.presenter
 
+import com.glovo.glovo.base.ExecutionThread
 import com.glovo.glovo.base.exception.ErrorHandler
 import com.glovo.glovo.map.domain.GetCitiesUseCase
 import com.glovo.glovo.map.domain.GetCityDetailsUseCase
@@ -12,7 +13,8 @@ class MapPresenterImpl(
     view: MainView, errorHandler: ErrorHandler,
     private val getCountriesUseCase: GetCountriesUseCase,
     private val getCitiesUseCase: GetCitiesUseCase,
-    private val getCityDetailsUseCase: GetCityDetailsUseCase
+    private val getCityDetailsUseCase: GetCityDetailsUseCase,
+    private val executionThread: ExecutionThread
 ) : MapPresenter(view, errorHandler) {
 
 
@@ -20,8 +22,8 @@ class MapPresenterImpl(
 
 
         addDisposable(
-            getCountriesUseCase.execute().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
+            getCountriesUseCase.execute().subscribeOn(executionThread.subscribeScheduler)
+                .observeOn(executionThread.observerScheduler).doOnSubscribe {
                     getView()?.showLoading()
                 }.doFinally {
                     getView()?.hideLoading()
@@ -36,8 +38,8 @@ class MapPresenterImpl(
 
     override fun getCities() {
 
-        addDisposable(getCitiesUseCase.execute().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
+        addDisposable(getCitiesUseCase.execute().subscribeOn(executionThread.subscribeScheduler)
+            .observeOn(executionThread.observerScheduler).doOnSubscribe {
                 getView()?.showLoading()
             }.doFinally {
                 getView()?.hideLoading()
@@ -50,10 +52,8 @@ class MapPresenterImpl(
     }
 
     override fun getCityDetails(cityCode: String) {
-        addDisposable(getCityDetailsUseCase.execute(GetCityDetailsUseCase.Params.forProjects(cityCode)).subscribeOn(
-            Schedulers.io()
-        )
-            .observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
+        addDisposable(getCityDetailsUseCase.execute(GetCityDetailsUseCase.Params.forProjects(cityCode)).subscribeOn(executionThread.subscribeScheduler)
+            .observeOn(executionThread.observerScheduler).doOnSubscribe {
                 getView()?.showLoading()
             }.doFinally {
                 getView()?.hideLoading()

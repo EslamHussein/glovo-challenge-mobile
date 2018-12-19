@@ -1,22 +1,19 @@
 package com.glovo.glovo.selectlocation.presenter
 
+import com.glovo.glovo.base.ExecutionThread
 import com.glovo.glovo.base.exception.ErrorHandler
-import com.glovo.glovo.map.domain.GetCityDetailsUseCase
 import com.glovo.glovo.selectlocation.domain.GetCountriesCitiesUseCase
 import com.glovo.glovo.selectlocation.view.SelectLocationView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class SelectLocationPresenterImpl(
     view: SelectLocationView, errorHandler: ErrorHandler,
-    private val getCountriesCitiesUseCase: GetCountriesCitiesUseCase
+    private val getCountriesCitiesUseCase: GetCountriesCitiesUseCase,
+    private val executionThread: ExecutionThread
 ) : SelectLocationPresenter(view, errorHandler) {
     override fun getCountriesAndCities() {
 
-        addDisposable(getCountriesCitiesUseCase.execute().subscribeOn(
-            Schedulers.io()
-        )
-            .observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
+        addDisposable(getCountriesCitiesUseCase.execute().subscribeOn(executionThread.subscribeScheduler)
+            .observeOn(executionThread.observerScheduler).doOnSubscribe {
                 getView()?.showLoading()
             }.doFinally {
                 getView()?.hideLoading()

@@ -21,7 +21,7 @@ import retrofit2.Retrofit
 
 val mapModule = module {
 
-    factory<MapPresenter> { (view: MainView) -> MapPresenterImpl(view, get(), get(), get(), get()) }
+    factory<MapPresenter> { (view: MainView) -> MapPresenterImpl(view, get(), get(), get(), get(), get()) }
 
     factory { get<Retrofit>().create(CountriesAPIService::class.java) }
     factory { get<Retrofit>().create(CitiesAPIService::class.java) }

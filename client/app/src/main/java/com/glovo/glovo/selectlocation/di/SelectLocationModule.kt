@@ -10,11 +10,7 @@ import org.koin.dsl.module.module
 val selectLocationModule = module {
 
     factory<SelectLocationPresenter> { (view: SelectLocationView) ->
-        SelectLocationPresenterImpl(
-            view,
-            get(),
-            get()
-        )
+        SelectLocationPresenterImpl(view, get(), get(), get())
     }
 
     factory { GetCountriesCitiesUseCase(get(), get()) }
