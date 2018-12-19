@@ -57,7 +57,8 @@ class SelectLocationActivity : MvpActivity<SelectLocationView, SelectLocationPre
         selectButton.setOnClickListener {
             val intent = Intent()
 
-            intent.putExtra(CITY_CODE_ARG, selectedCityCode)
+
+            intent.putExtra(CITY_CODE_ARG, filteredCities?.get(citiesSpinner.selectedItemPosition)?.code)
             setResult(Activity.RESULT_OK, intent)
             finish()
 
@@ -108,6 +109,7 @@ class SelectLocationActivity : MvpActivity<SelectLocationView, SelectLocationPre
 
                 citiesAdapter?.clear()
                 citiesAdapter?.addAll(filteredCities)
+                citiesSpinner.setSelection(0)
 
             }
 
