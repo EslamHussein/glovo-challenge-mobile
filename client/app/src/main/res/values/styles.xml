@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.WhiteTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressBackgroundTint">@color/colorAccent</item>
+        <item name="android:progressTint">@color/colorPrimary</item>
+    </style>
+
+
 </resources>
