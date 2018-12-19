@@ -15,13 +15,12 @@ public object Configration {
     }
 
     object Version {
-        const val androidSupportVersion = "28.0.0-alpha3"
-        const val daggerVersion = "2.15"
-        const val retrofitVersion = "2.3.0"
-        const val okhttpVersion = "3.9.1"
-        const val retrofit2RxJava2AdapterVersion = "2.3.0"
-        const val constraintLayoutVersion = "1.1.2"
-        const val picassoVersion = "2.71828"
+
+        const val appCompact = "1.1.0-alpha01"
+        const val retrofitVersion = "2.5.0"
+        const val okhttpVersion = "3.12.0"
+        const val retrofit2RxJava2AdapterVersion = "2.5.0"
+        const val constraintLayoutVersion = "2.0.0-alpha2"
         const val rxAndroidVersion = "2.0.2"
         const val rxKotlinVersion = "2.1.0"
         const val kotlinVersion = "1.2.51"
@@ -30,6 +29,10 @@ public object Configration {
         const val espressoVersion = "3.0.2"
         const val mockitoVersion = "2.8.47"
         const val gradleVersion = "3.2.1"
+        const val koinVersion = "1.0.2"
+        const val playServicesVersion = "16.0.0"
+        const val gMapsUtilsVersion = "0.5"
+
 
     }
 
@@ -42,10 +45,11 @@ public object Configration {
 
     object AndroidXSupport {
 
-        const val supportDesign = "com.android.support:design:${Version.androidSupportVersion}"
-        const val appcompat = "com.android.support:appcompat-v7:${Version.androidSupportVersion}"
+        const val appcompat = "androidx.appcompat:appcompat:${Version.appCompact}"
         const val constraintLayout =
-            "com.android.support.constraint:constraint-layout:${Version.constraintLayoutVersion}"
+            "androidx.constraintlayout:constraintlayout:${Version.constraintLayoutVersion}"
+        const val material = "com.google.android.material:material:${Version.appCompact}"
+
 
     }
 
@@ -53,6 +57,12 @@ public object Configration {
         const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Version.rxAndroidVersion}"
         const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Version.rxKotlinVersion}"
 
+    }
+
+    object PlayService {
+        const val maps = "com.google.android.gms:play-services-maps:${Version.playServicesVersion}"
+        const val mapsUtils = "com.google.maps.android:android-maps-utils:${Version.gMapsUtilsVersion}"
+        const val location = "com.google.android.gms:play-services-location:${Version.playServicesVersion}"
     }
 
 
@@ -73,6 +83,9 @@ public object Configration {
 
     }
 
+    object Koin {
+        const val koin = "org.koin:koin-android:${Version.koinVersion}"
+    }
 
     object Testing {
 
